@@ -36,6 +36,9 @@
         모든 레이블
       </li>
     </ul>
+
+    <input type="button" value="저장" v-on:click="save()"/>
+    <input type="button" value="불러오기" v-on:click="load()"/>
   </div>
 </template>
 
@@ -81,6 +84,12 @@ export default {
     changeFilterLabelId(id){
       console.log(id)
       this.$store.commit('changeFilterLabelId',{id:id})
+    },
+    save(){
+      this.$store.dispatch('save')
+    },
+    load(){
+      this.$store.dispatch('load')
     }
   }
 }

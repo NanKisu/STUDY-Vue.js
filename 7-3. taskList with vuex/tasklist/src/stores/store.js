@@ -65,6 +65,12 @@ const store = new Vuex.Store({
         changeFilterLabelId(state, {id}){
             console.log(id)
             state.filterLabelId = id
+        },
+        loadLocalData(state, {data}){
+            state.tasks = data.tasks
+            state.nextTaskId = data.nextTaskId
+            state.labels = data.labels
+            state.nextLabelId = data.nextLabelId
         }
     },
     getters: {
@@ -75,6 +81,23 @@ const store = new Vuex.Store({
             return state.tasks.filter(task => {
                 return task.labelIds.includes(state.filterLabelId)
             })
+        }
+    },
+    actions: {
+        save({state}){
+            const data = {
+                tasks: state.tasks,
+                nextTaskId: state.nextTaskId,
+                labels: state.labels,
+                nextLabelId: state.nextLabelId
+            }
+            localStorage.setItem('taskList-data', JSON.stringify(data))
+        },
+        load({commit}){
+            const data = localStorage.getItem('taskList-data')
+            if(data){
+                commit('loadLocalData', {data: JSON.parse(data)})
+            }
         }
     }
 })
